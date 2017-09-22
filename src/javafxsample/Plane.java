@@ -9,6 +9,7 @@ import javafx.animation.Interpolator;
 import javafx.animation.PathTransition;
 import javafx.event.Event;
 import javafx.event.EventHandler;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.image.Image;
@@ -22,14 +23,16 @@ import javafx.util.Duration;
  *
  * @author optimans
  */
-public class Plane {
+public class Plane extends Actor {
 
+    String name;
     Image planeBody;
     ImageView planeBodyView;
     
-    public Plane(Scene scene) {
+    public Plane(Scene scene, String name) {
         String path = "file:" + System.getProperty("user.dir") + "/src/javafxsample/plane.png";
-        System.out.println(path);
+//        System.out.println(path);
+        this.name = name;
         planeBody = new Image(path, false);
         planeBodyView = new ImageView(planeBody);
         planeBodyView.setX(100);
@@ -41,8 +44,9 @@ public class Plane {
         planeBodyView.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent e) {
-                System.out.println("Plane:" + e.getText());
-//                e.consume();
+                System.out.println(name + " : " + e.getText());
+                if (name == "Alpha")
+                    e.consume();
             }            
         });
         
@@ -59,6 +63,8 @@ public class Plane {
 //        planeBodyView.setOnKeyPressed(movementHandler);
         
     }
+    
+    public String getName() { return name; }
     
     private void setAnimators() {
         Path animationPath = new Path();
@@ -95,9 +101,12 @@ public class Plane {
         
         pt.play();
     }
+
+    @Override
+    public Node getNode() {
+        return planeBodyView;
+    }
     
-    
-    
-    ImageView getImageView() { return planeBodyView; }
+    public ImageView getImageView() { return planeBodyView; }
     
 }

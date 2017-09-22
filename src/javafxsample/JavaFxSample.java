@@ -5,6 +5,7 @@
  */
 package javafxsample;
 
+import com.sun.javafx.event.EventDispatchChainImpl;
 import java.util.ArrayList;
 import javafx.animation.FadeTransition;
 import static javafx.application.Application.launch;
@@ -18,6 +19,7 @@ import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
+import static javafx.application.Application.launch;
 
 /**
  *
@@ -44,32 +46,35 @@ public class JavaFxSample extends Application {
         Group g = new Group();
         Scene scene = new Scene(g, 800, 600);
         scene.setFill(Color.WHITESMOKE);
-        ArrayList<ImageView> actorsToBeNotified = new ArrayList<>();
-        plane = new Plane(scene);
-        Plane plane2 = new Plane(scene);
-        actorsToBeNotified.add(plane.getImageView());
-        actorsToBeNotified.add(plane2.getImageView());
+        ArrayList<Actor> actors = new ArrayList<>();
+        actors.add(new Plane(scene, "Alpha"));
+        actors.add(new Plane(scene, "Bravo"));
+        
+        
+        EventDispatchChainImpl chain = new EventDispatchChainImpl();
+        chain.append(scene.getEventDispatcher());
+        chain.append(actors.get(0).getImageView().getEventDispatcher());
+        chain.append(actors.get(1).getImageView().getEventDispatcher());
+        scene.buildEventDispatchChain(chain);
         
         scene.addEventFilter(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent e) {
                 System.out.println("Scene:" + e.getText());
-                for (ImageView actor: actorsToBeNotified) {
-                    actor.requestFocus(); 
-               }
-//                plane.getImageView().requestFocus();
-//                plane.getImageView().fireEvent(e);
+                chain.dispatchEvent(e);
+//                for (Actor actor: actors) {
+//                    actor.getNode().requestFocus(); 
+//                    System.out.println("Notified " + ((Plane)actor).getName());
+//                }
+                // Non so perche' dovrei consumarlo qua...ma se non lo faccio 
+                // vengono propagati piu' eventi del dovuto
+//                e.consume();
             }
         });
         
-//        Circle c = new Circle(50, 50, 50, Color.BLUEVIOLET);
-//        hide = hideShapeTransition(c, 1000);
-        
-//        g.getChildren().add(c);
-        g.getChildren().add(plane.getImageView());
+        g.getChildren().add(actors.get(0).getImageView());
         stage.setScene(scene);
         stage.show();
-//        hide.play();
     }
     
     public static void main(String[] args) {
