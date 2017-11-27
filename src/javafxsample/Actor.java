@@ -13,6 +13,14 @@ import javafx.scene.image.ImageView;
  * @author optimans
  */
 public abstract class Actor {
+    ImageView image;
+    
+    
+    
     public abstract Node getNode();
     public abstract ImageView getImageView();
+    public abstract void onKeyPressed(String keyCode);
+    public void setImage(ImageView i) {
+        image = i;
+    }
 }

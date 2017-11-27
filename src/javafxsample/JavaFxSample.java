@@ -45,35 +45,22 @@ public class JavaFxSample extends Application {
     public void start(Stage stage) {
         Group g = new Group();
         Scene scene = new Scene(g, 800, 600);
+        stage.setScene(scene);
         scene.setFill(Color.WHITESMOKE);
         ArrayList<Actor> actors = new ArrayList<>();
         actors.add(new Plane(scene, "Alpha"));
         actors.add(new Plane(scene, "Bravo"));
-        
-        
-        EventDispatchChainImpl chain = new EventDispatchChainImpl();
-        chain.append(scene.getEventDispatcher());
-        chain.append(actors.get(0).getImageView().getEventDispatcher());
-        chain.append(actors.get(1).getImageView().getEventDispatcher());
-        scene.buildEventDispatchChain(chain);
-        
-        scene.addEventFilter(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
-            @Override
+        scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
             public void handle(KeyEvent e) {
-                System.out.println("Scene:" + e.getText());
-                chain.dispatchEvent(e);
-//                for (Actor actor: actors) {
-//                    actor.getNode().requestFocus(); 
-//                    System.out.println("Notified " + ((Plane)actor).getName());
-//                }
-                // Non so perche' dovrei consumarlo qua...ma se non lo faccio 
-                // vengono propagati piu' eventi del dovuto
-//                e.consume();
+                String code = e.getCode().toString();
+                for (Actor actor: actors) {
+                    actor.onKeyPressed(code);
+                }
             }
         });
         
         g.getChildren().add(actors.get(0).getImageView());
-        stage.setScene(scene);
+        
         stage.show();
     }
     

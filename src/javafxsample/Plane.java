@@ -19,72 +19,41 @@ import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
 import javafx.util.Duration;
 
-/**
- *
- * @author optimans
- */
 public class Plane extends Actor {
 
     String name;
     Image planeBody;
-    ImageView planeBodyView;
     
     public Plane(Scene scene, String name) {
         String path = "file:" + System.getProperty("user.dir") + "/src/javafxsample/plane.png";
-//        System.out.println(path);
         this.name = name;
-        planeBody = new Image(path, false);
-        planeBodyView = new ImageView(planeBody);
-        planeBodyView.setX(100);
-        planeBodyView.setY(100);
-        planeBodyView.requestFocus();
-        
-//        setAnimators();
-        
-        planeBodyView.setOnKeyPressed(new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent e) {
-                System.out.println(name + " : " + e.getText());
-                if (name == "Alpha")
-                    e.consume();
-            }            
-        });
-        
-//        planeBodyView.setEventDispatcher(scene.getEventDispatcher());
-//        EventHandler<KeyEvent> movementHandler = new javafx.event.EventHandler<KeyEvent>() {
-//            @Override
-//            public void handle(final KeyEvent t) {
-//                System.out.println("Input received");
-//                System.out.println(t.getCharacter());
-//                t.consume();
-//            }
-//        };
-//        
-//        planeBodyView.setOnKeyPressed(movementHandler);
-        
+        setImage(new ImageView(new Image(path, true)));
+        image.setX(100);
+        image.setY(100);
+        image.requestFocus();
     }
     
     public String getName() { return name; }
     
     private void setAnimators() {
         Path animationPath = new Path();
-        animationPath.getElements().add(new MoveTo(100+planeBodyView.getFitWidth()/2, 100+planeBodyView.getFitHeight()/2));
+        animationPath.getElements().add(new MoveTo(100+image.getFitWidth()/2, 100+image.getFitHeight()/2));
         animationPath.getElements().add(new LineTo(500, 500));
         PathTransition pt = new PathTransition();
         pt.setDuration(Duration.millis(1000));
         pt.setPath(animationPath);
 //        pt.setOrientation(PathTransition.OrientationType.ORTHOGONAL_TO_TANGENT);
         pt.setInterpolator(Interpolator.EASE_BOTH);
-        pt.setNode(planeBodyView);
+        pt.setNode(image);
         
         Path returnAnimationPath = new Path();
         animationPath.getElements().add(new MoveTo(500, 500));
-        animationPath.getElements().add(new LineTo(100+planeBodyView.getFitWidth()/2, 100+planeBodyView.getFitHeight()/2));
+        animationPath.getElements().add(new LineTo(100+image.getFitWidth()/2, 100+image.getFitHeight()/2));
         PathTransition returnPt = new PathTransition();
         returnPt.setDuration(Duration.millis(1000));
         returnPt.setPath(animationPath);
         returnPt.setInterpolator(Interpolator.EASE_BOTH);
-        returnPt.setNode(planeBodyView);
+        returnPt.setNode(image);
         
         pt.setOnFinished(new EventHandler() {
             public void handle(Event t) {
@@ -104,9 +73,13 @@ public class Plane extends Actor {
 
     @Override
     public Node getNode() {
-        return planeBodyView;
+        return image;
     }
     
-    public ImageView getImageView() { return planeBodyView; }
+    public ImageView getImageView() { return image; }
+    
+    public void onKeyPressed(String keyCode) {
+        System.out.println(name + " " + keyCode);
+    }
     
 }
