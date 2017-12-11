@@ -59,7 +59,9 @@ public class JavaFxSample extends Application {
             }
         });
         
-        g.getChildren().add(actors.get(0).getImageView());
+        for (Actor current: actors) {
+            g.getChildren().add(current.getImageView());
+        }
         
         stage.show();
     }
