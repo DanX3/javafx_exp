@@ -9,12 +9,13 @@ import java.util.ArrayList;
 import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
+import javafx.scene.image.ImageView;
 
 /**
  *
  * @author optimans
  */
-public class Cannon extends Actor {
+public class PlaneJet extends Actor {
 
     @Override
     public void onKeyPressed(String keyCode) {
@@ -23,7 +24,7 @@ public class Cannon extends Actor {
 
     @Override
     protected String getImageName() {
-        return "cannon.png";
+        return "jet.png";
     }
 
     @Override
@@ -33,17 +34,20 @@ public class Cannon extends Actor {
 
     @Override
     public ArrayList<Rectangle2D> getCollisionShapes() {
-        return null;
+        ArrayList<Rectangle2D> shapes = new ArrayList<>(2);
+        shapes.add(new Rectangle2D(0, 50, 325, 50));
+        shapes.add(new Rectangle2D(245, 0, 100, 50));
+        return shapes;
     }
-    
+
     @Override
     public String getCollisionStringId() {
-        return "cannon";
+        return "jet";
     }
 
     @Override
     protected Point2D getLocation() {
-        return new Point2D(100, 200);
+        return new Point2D(100, 300);
     }
     
     

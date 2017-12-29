@@ -6,28 +6,39 @@
 package javafxsample;
 
 import java.util.ArrayList;
+import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-/**
- *
- * @author optimans
- */
+
+
 public abstract class Actor {
+    
     protected ImageView image;
+    Point2D location;
     
     public Actor() {
         setImage();
+        location = getLocation();
+        image.setX(location.getX());
+        image.setY(location.getY());
     }
     
-    public abstract Node getNode();
-    public final ImageView getImageView() { return image; }
+    public ArrayList<ImageView> getImageViewList() {
+        ArrayList<ImageView> result = new ArrayList<ImageView>(1);
+        result.add(image);
+        return result;
+    }
     public abstract void onKeyPressed(String keyCode);
     
+    public static String getResPath() {
+        return "file:" + System.getProperty("user.dir") + "/res/img/";
+    }
+    
     public void setImage() {
-        String path = "file:" + System.getProperty("user.dir") + "/res/img/" + getImageName();
+        String path = getResPath() + getImageName();
         image = new ImageView(new Image(path, true));
     }
     
@@ -42,4 +53,6 @@ public abstract class Actor {
     public abstract ArrayList<Rectangle2D> getCollisionShapes();
     
     public abstract String getCollisionStringId();
+    
+    protected abstract Point2D getLocation();
 }

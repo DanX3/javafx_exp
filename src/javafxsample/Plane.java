@@ -10,6 +10,7 @@ import javafx.animation.Interpolator;
 import javafx.animation.PathTransition;
 import javafx.event.Event;
 import javafx.event.EventHandler;
+import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -27,11 +28,9 @@ public class Plane extends Actor {
     String name;
     PathTransition pt;
     
-    public Plane(Scene scene, String name) {
+    public Plane(String name) {
         super();
         this.name = name;
-        image.setX(100);
-        image.setY(100);
         setAnimators();
     }
 
@@ -75,11 +74,6 @@ public class Plane extends Actor {
         });
             }
 
-    @Override
-    public Node getNode() {
-        return image;
-    }
-    
     public void onKeyPressed(String keyCode) {
         if ((name.equals("Alpha")) && (keyCode.equals("A"))) {
             pt.play();
@@ -100,16 +94,25 @@ public class Plane extends Actor {
 
     @Override
     protected boolean wantsToCollide() {
-        
+        return true;
     }
 
     @Override
     public ArrayList<Rectangle2D> getCollisionShapes() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        ArrayList<Rectangle2D> shapes = new ArrayList<Rectangle2D>(2);
+        shapes.add(new Rectangle2D(48, 0, 50, 116));
+        shapes.add(new Rectangle2D(0, 30, 140, 30));
+        return shapes;
     }
     
     @Override
     public String getCollisionStringId() {
         return "plane";
     }
+
+    @Override
+    protected Point2D getLocation() {
+        return new Point2D(100, 100);
+    }
+    
 }

@@ -7,6 +7,8 @@ package javafxsample;
 
 import com.sun.javafx.event.EventDispatchChainImpl;
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 import javafx.animation.FadeTransition;
 import static javafx.application.Application.launch;
 import javafx.scene.Group;
@@ -30,8 +32,9 @@ public class JavaFxSample extends Application {
      * @param args the command line arguments
      */
     
-    FadeTransition show, hide;
-    Plane plane;
+    ArrayList<Actor> actors;
+    ArrayList<Actor> collidingActors;
+    Timer tickTimer;
     
     FadeTransition hideShapeTransition(Shape s, int millis_duration) {
         FadeTransition result = new FadeTransition(Duration.millis(millis_duration), s);
@@ -40,16 +43,16 @@ public class JavaFxSample extends Application {
         return result;
     }
     
-    
-    
     public void start(Stage stage) {
         Group g = new Group();
         Scene scene = new Scene(g, 800, 600);
         stage.setScene(scene);
         scene.setFill(Color.WHITESMOKE);
-        ArrayList<Actor> actors = new ArrayList<>();
-        actors.add(new Plane(scene, "Alpha"));
-        actors.add(new Plane(scene, "Bravo"));
+        actors = new ArrayList<>();
+        collidingActors = new ArrayList<>();
+        addActor(new Plane("Alpha"));
+        addActor(new PlaneJet());
+//        actors.add(new Plane(scene, "Bravo"));
         scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
             public void handle(KeyEvent e) {
                 String code = e.getCode().toString();
@@ -59,11 +62,38 @@ public class JavaFxSample extends Application {
             }
         });
         
+        tickTimer = new Timer();
+        tickTimer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    System.out.println("ping");
+                }
+            }, 0, 100);
+        
         for (Actor current: actors) {
-            g.getChildren().add(current.getImageView());
+            for (ImageView iv: current.getImageViewList()) {
+                g.getChildren().add(iv);
+            }
         }
         
         stage.show();
+    }
+
+    @Override
+    public void stop() throws Exception {
+        super.stop();
+        tickTimer.cancel();
+    }
+    
+    
+    
+    
+    
+    private void addActor(Actor actor) {
+        actors.add(actor);
+        if (actor.wantsToCollide()) {
+            collidingActors.add(actor);
+        }
     }
     
     public static void main(String[] args) {
