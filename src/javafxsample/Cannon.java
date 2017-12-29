@@ -5,6 +5,8 @@
  */
 package javafxsample;
 
+import java.util.ArrayList;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 
 /**
@@ -28,6 +30,18 @@ public class Cannon extends Actor {
         return "cannon.png";
     }
 
+    @Override
+    protected boolean wantsToCollide() {
+        return false;
+    }
+
+    @Override
+    public ArrayList<Rectangle2D> getCollisionShapes() {
+        return null;
+    }
     
-    
+    @Override
+    public String getCollisionStringId() {
+        return "cannon";
+    }
 }

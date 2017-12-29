@@ -40,4 +40,6 @@ public abstract class Actor {
     protected abstract boolean wantsToCollide();
     
     public abstract ArrayList<Rectangle2D> getCollisionShapes();
+    
+    public abstract String getCollisionStringId();
 }

@@ -5,10 +5,12 @@
  */
 package javafxsample;
 
+import java.util.ArrayList;
 import javafx.animation.Interpolator;
 import javafx.animation.PathTransition;
 import javafx.event.Event;
 import javafx.event.EventHandler;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyEvent;
@@ -95,5 +97,19 @@ public class Plane extends Actor {
             image.setScaleY(-1 * image.getScaleY());
         }
     }
+
+    @Override
+    protected boolean wantsToCollide() {
+        
+    }
+
+    @Override
+    public ArrayList<Rectangle2D> getCollisionShapes() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
+    @Override
+    public String getCollisionStringId() {
+        return "plane";
+    }
 }
