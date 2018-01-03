@@ -16,9 +16,23 @@ import javafx.scene.Node;
  */
 public class Cannon extends Actor {
 
-    @Override
+   Point2D projectileSpawnPoint;
+   float tiltAngle;
+   
+   public Cannon() {
+      tiltAngle = 0;
+   }
+
+   @Override
     public void onKeyPressed(String keyCode) {
         return;
+    }
+    
+    private void increaseTiltAngle(float difference){
+       tiltAngle += difference;
+       tiltAngle = Actor.clamp(0,90, tiltAngle);
+       
+       
     }
 
     @Override

@@ -59,4 +59,29 @@ public abstract class Actor {
     public void collidedWith(String collidingActorName) {
         return;
     }
+    
+    protected ImageView generateImage(String imageName){
+        String path = getResPath() + imageName;
+        return new ImageView(new Image(path, true));
+    } 
+    
+    public static int clamp(int min, int max, int value){
+       if(value < min){ 
+         value = min;
+       }
+       if(value > max){
+          value = max;
+       }
+       return value;
+    }
+    
+    public static float clamp(float min, float max, float value){
+       if(value < min){ 
+         value = min;
+       }
+       if(value > max){
+          value = max;
+       }
+       return value;
+    }
 }

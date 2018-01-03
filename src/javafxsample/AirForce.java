@@ -35,8 +35,6 @@ public class AirForce extends Actor {
    @Override
    public ArrayList<Rectangle2D> getCollisionShapes() {
       ArrayList<Rectangle2D> shapes = new ArrayList<>(3);
-      shapes.add(new Rectangle2D(0, 25, 325, 50));
-      shapes.add(new Rectangle2D(245, 0, 100, 50));
       return shapes;
    }
    
@@ -47,7 +45,7 @@ public class AirForce extends Actor {
    
    @Override
    protected Point2D getLocation() {
-      return new Point2D(0, 200);
+      return new Point2D();
    }
    
    

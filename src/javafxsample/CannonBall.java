@@ -20,14 +20,12 @@ import javafx.scene.image.ImageView;
 public class CannonBall extends Actor {
 
    @Override
-   public void setImage() {
-      super.setImage(); //To change body of generated methods, choose Tools | Templates.
-   }
-
-   @Override
    public ArrayList<ImageView> getImageViewList() {
-      return super.getImageViewList(); //To change body of generated methods, choose Tools | Templates.
+      ArrayList<ImageView> cannonballList = super.getImageViewList();
+      cannonballList.add(generateImage("glass.png"));
+      return cannonballList;
    }
+   
    @Override
     public void onKeyPressed(String keyCode) {
         return;
@@ -42,5 +40,22 @@ public class CannonBall extends Actor {
     protected boolean wantsToCollide() {
         return false;
     }
+
+   @Override
+   public ArrayList<Rectangle2D> getCollisionShapes() {
+      throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+   }
+
+   @Override
+   public String getCollisionStringId() {
+      return "cannonball";
+   }
+
+   @Override
+   protected Point2D getInitialLocation() {
+      
+   }
+    
+    
    
 }
