@@ -37,7 +37,7 @@ public abstract class Actor {
         return "file:" + System.getProperty("user.dir") + "/res/img/";
     }
     
-    public void setImage() {
+    private void setImage() {
         String path = getResPath() + getImageName();
         image = new ImageView(new Image(path, true));
     }
