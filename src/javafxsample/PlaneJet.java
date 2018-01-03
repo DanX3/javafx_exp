@@ -29,7 +29,7 @@ public class PlaneJet extends Actor {
 
     @Override
     protected boolean wantsToCollide() {
-        return false;
+        return true;
     }
 
     @Override
@@ -46,8 +46,15 @@ public class PlaneJet extends Actor {
     }
 
     @Override
-    protected Point2D getLocation() {
+    protected Point2D getInitialLocation() {
         return new Point2D(100, 300);
+    }
+
+    @Override
+    public void collidedWith(String collidingActorName) {
+        if (collidingActorName.equals("plane")) {
+            System.out.println("I'm colliding with a " + collidingActorName);
+        }
     }
     
     

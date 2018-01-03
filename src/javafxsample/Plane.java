@@ -111,8 +111,8 @@ public class Plane extends Actor {
     }
 
     @Override
-    protected Point2D getLocation() {
-        return new Point2D(100, 100);
+    protected Point2D getInitialLocation() {
+        return new Point2D(100, 300);
     }
     
 }

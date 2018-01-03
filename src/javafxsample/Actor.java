@@ -21,7 +21,7 @@ public abstract class Actor {
     
     public Actor() {
         setImage();
-        location = getLocation();
+        location = getInitialLocation();
         image.setX(location.getX());
         image.setY(location.getY());
     }
@@ -54,5 +54,9 @@ public abstract class Actor {
     
     public abstract String getCollisionStringId();
     
-    protected abstract Point2D getLocation();
+    protected abstract Point2D getInitialLocation();
+    
+    public void collidedWith(String collidingActorName) {
+        return;
+    }
 }
