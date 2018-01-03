@@ -42,9 +42,8 @@ public class Cannon extends Actor {
     }
 
     @Override
-    protected Point2D getLocation() {
+    protected Point2D getInitialLocation() {
         return new Point2D(100, 200);
     }
-    
-    
+
 }

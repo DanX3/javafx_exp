@@ -22,6 +22,9 @@ import javafx.event.EventHandler;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import static javafx.application.Application.launch;
+import javafx.geometry.Rectangle2D;
+import static javafx.application.Application.launch;
+import static javafx.application.Application.launch;
 
 /**
  *
@@ -66,9 +69,29 @@ public class JavaFxSample extends Application {
         tickTimer.schedule(new TimerTask() {
                 @Override
                 public void run() {
-                    System.out.println("ping");
+                    for (int i=0; i<collidingActors.size(); i++) {
+                        for (int j=i+1; j<collidingActors.size(); j++) {
+                            Actor first = collidingActors.get(i);
+                            Actor second = collidingActors.get(j);
+                            for (Rectangle2D shape1: first.getCollisionShapes()) {
+                                boolean collided = false;
+                                for (Rectangle2D shape2: second.getCollisionShapes()) {
+                                    if (shape1.intersects(shape2)) {
+                                        first.collidedWith(second.getCollisionStringId());
+                                        second.collidedWith(first.getCollisionStringId());
+                                        collided = true;
+                                        break;
+                                    }
+                                }
+                                if (collided) {
+                                    break;
+                                }
+                            }
+                        }
+                    }
                 }
-            }, 0, 100);
+            }, 0, 33);
+        // Increase delay for performance
         
         for (Actor current: actors) {
             for (ImageView iv: current.getImageViewList()) {
